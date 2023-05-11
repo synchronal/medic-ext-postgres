@@ -1,0 +1,14 @@
+[package]
+name = "medic-check-postgres"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { workspace = true, features = ["derive", "cargo", "wrap_help", "env", "unicode" ] }
+indoc = { workspace = true }
+medic-lib = { workspace = true }
+
+[features]
+# Treat warnings as a build error.
+default = ["strict"]
+strict = []

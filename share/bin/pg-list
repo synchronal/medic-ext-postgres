@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Lists the running copies of postgres
+
+source "$(brew --prefix)/share/medic-bash/cecho.bash"
+source "$(brew --prefix)/share/medic-bash/step.bash"
+
+step_header "Currently running Postgres databases" "ps -x -o command | grep '[/]bin/postgres -D'"
+echo
+ps -x -o command | grep '[/]bin/postgres -D'
+
+if [ $? -ne 0 ]; then
+  cecho --yellow "No Postgres databases seem to be running"
+fi

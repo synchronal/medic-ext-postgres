@@ -1,0 +1,45 @@
+[doctor]
+
+checks = [
+  { check = "asdf", command = "plugin-installed", args = { plugin = "rust" } },
+  { check = "asdf", command = "package-installed", args = { plugin = "rust" } },
+  { check = "homebrew", output = "json" },
+  { check = "rust", command = "crate-installed", args = { name = "cargo-audit" } },
+  { check = "rust", command = "crate-installed", args = { name = "cargo-outdated" } },
+  { check = "rust", command = "target-installed", args = { target = "aarch64-apple-darwin" } },
+  { check = "rust", command = "target-installed", args = { target = "x86_64-apple-darwin" } },
+]
+
+[test]
+
+checks = [
+  { name = "Check for warnings", shell = "cargo build --workspace --features strict" },
+  { step = "rust", command = "test", verbose = true },
+]
+
+[audit]
+
+checks = [
+  { name = "Audit crates", shell = "cargo audit", allow_failure = true, verbose = true },
+  { check = "rust", command = "format-check" },
+  { step = "rust", command = "clippy" },
+  { name = "shell lints", shell = "shellcheck -x -e SC2009,SC1091,SC2181 share/bin/*" },
+]
+
+[update]
+
+steps = [
+  { step = "git", command = "pull" },
+  { doctor = {} },
+]
+
+[shipit]
+
+steps = [
+  { audit = {} },
+  { update = {} },
+  { test = {} },
+  { name = "Release", shell = "bin/dev/release", verbose = true },
+  { step = "git", command = "push" },
+  { step = "github", command = "link-to-actions", verbose = true },
+]

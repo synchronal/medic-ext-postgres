@@ -8,3 +8,4 @@ members = [
 clap = { version = "4.1.8" }
 indoc = "2.0.1"
 medic-lib = { git = "https://github.com/synchronal/medic-rs", tag = "v0.2.1" }
+postgres = "0.19"

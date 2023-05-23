@@ -6,6 +6,7 @@ fn main() -> CheckResult {
 
     match cli.command {
         Command::Running(args) => medic_check_postgres::check_running(args)?,
+        Command::DatabaseExists(args) => medic_check_postgres::database_exists(args)?,
     }
 
     CheckOk

@@ -1,14 +1,13 @@
 #![cfg_attr(feature = "strict", deny(warnings))]
 #![feature(iter_intersperse)]
 
-use crate::cli::app::DatabaseCheckArgs;
-use crate::cli::app::DefaultConnectionArgs;
+use crate::cli::app;
 use medic_lib::CheckResult::{self, CheckError, CheckOk};
 use postgres::{Client, NoTls};
 
 pub mod cli;
 
-pub fn check_running(args: DefaultConnectionArgs) -> CheckResult {
+pub fn check_running(args: app::DefaultConnectionArgs) -> CheckResult {
     match Client::connect(&format!("{args}"), NoTls) {
         Ok(_) => CheckOk,
         Err(err) => CheckError(
@@ -20,7 +19,7 @@ pub fn check_running(args: DefaultConnectionArgs) -> CheckResult {
     }
 }
 
-pub fn database_exists(args: DatabaseCheckArgs) -> CheckResult {
+pub fn database_exists(args: app::DatabaseCheckArgs) -> CheckResult {
     match Client::connect(&format!("{args}"), NoTls) {
         Ok(mut client) => match client.query("SELECT datname FROM pg_database", &[]) {
             Ok(rows) => {
@@ -40,6 +39,40 @@ pub fn database_exists(args: DatabaseCheckArgs) -> CheckResult {
             }
             Err(err) => CheckError(
                 "Unable to retrieve database list".into(),
+                Some(format!("{err}")),
+                None,
+                None,
+            ),
+        },
+        Err(err) => CheckError(
+            "Unable to connect to Postgres".into(),
+            Some(format!("{err}")),
+            None,
+            Some("pg-start".into()),
+        ),
+    }
+}
+
+pub fn role_exists(args: app::RoleCheckArgs) -> CheckResult {
+    match Client::connect(&format!("{args}"), NoTls) {
+        Ok(mut client) => match client.query("SELECT usename FROM pg_catalog.pg_user", &[]) {
+            Ok(rows) => {
+                let roles = rows.iter().map(|row| row.get(0)).collect::<Vec<String>>();
+                for name in &roles {
+                    if name == &args.role {
+                        return CheckOk;
+                    }
+                }
+                let role_list: String = roles.join("\r\n");
+                CheckError(
+                    format!("Role {} not found.", args.role),
+                    Some(format!("Roles:\r\n{}", role_list)),
+                    None,
+                    args.remedy,
+                )
+            }
+            Err(err) => CheckError(
+                "Unable to retrieve role list".into(),
                 Some(format!("{err}")),
                 None,
                 None,

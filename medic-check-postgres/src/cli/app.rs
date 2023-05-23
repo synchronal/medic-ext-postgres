@@ -1,7 +1,22 @@
 use clap::Args;
 use clap::Parser;
 use clap::Subcommand;
+use clap::ValueEnum;
 use std::fmt;
+
+#[derive(Clone, Debug, Parser, ValueEnum)]
+pub enum SslMode {
+    #[clap(rename_all = "kebab-case")]
+    Prefer,
+}
+
+impl std::fmt::Display for SslMode {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            SslMode::Prefer => write!(f, "prefer"),
+        }
+    }
+}
 
 #[derive(Debug, Parser)]
 #[clap(author, version, about)]
@@ -20,7 +35,8 @@ pub enum Command {
 
 #[derive(Args, Debug)]
 pub struct ConnectionArgs {
-    #[arg(short, long, default_value = "1", value_hint = clap::ValueHint::CommandString)]
+    /// connection timeout in seconds
+    #[arg(short, long, default_value = "5", value_hint = clap::ValueHint::CommandString)]
     pub connect_timeout: String,
 
     #[arg(short, long, env = "PGDATABASE", value_hint = clap::ValueHint::CommandString)]
@@ -35,8 +51,8 @@ pub struct ConnectionArgs {
     #[arg(short, long, env = "PGPORT", default_value = "5432", value_hint = clap::ValueHint::CommandString)]
     pub port: String,
 
-    #[arg(short, long, default_value = "prefer", value_hint = clap::ValueHint::CommandString)]
-    pub sslmode: String,
+    #[arg(long, default_value_t = SslMode::Prefer)]
+    pub sslmode: SslMode,
 
     #[arg(short, long, env = "PGUSER", default_value = "postgres", value_hint = clap::ValueHint::CommandString)]
     pub user: String,
@@ -49,8 +65,8 @@ impl fmt::Display for ConnectionArgs {
         }
         write!(
             f,
-            "host={} user={} port={} password={} sslmode={}",
-            self.host, self.user, self.port, self.password, self.sslmode
+            "host={} user={} port={} password={} sslmode={} connect_timeout={}",
+            self.host, self.user, self.port, self.password, self.sslmode, self.connect_timeout
         )
     }
 }

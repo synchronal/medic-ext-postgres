@@ -20,6 +20,42 @@ pub fn check_running(args: app::DefaultConnectionArgs) -> CheckResult {
     }
 }
 
+pub fn data_directory(args: app::DataDirectoryCheckArgs) -> CheckResult {
+    match Client::connect(&env::expand_string(format!("{args}")), NoTls) {
+        Ok(mut client) => match client.query_one("SHOW data_directory", &[]) {
+            Ok(row) => {
+                let data_directory: String = row.get(0);
+                let expected_data_directory = canonicalize(args.data_directory);
+                if data_directory == expected_data_directory {
+                    CheckOk
+                } else {
+                    CheckError(
+                        format!(
+                            "Postgres data directory `{}` set to unexpected value.",
+                            expected_data_directory
+                        ),
+                        Some(format!("Data directory: {}", data_directory)),
+                        None,
+                        args.remedy,
+                    )
+                }
+            }
+            Err(err) => CheckError(
+                "Unable to retrieve data directory".into(),
+                Some(format!("{err}")),
+                None,
+                None,
+            ),
+        },
+        Err(err) => CheckError(
+            "Unable to connect to Postgres".into(),
+            Some(format!("{err}")),
+            Some(format!("Connection params: {args}")),
+            Some("pg-start".into()),
+        ),
+    }
+}
+
 pub fn database_exists(args: app::DatabaseCheckArgs) -> CheckResult {
     match Client::connect(&env::expand_string(format!("{args}")), NoTls) {
         Ok(mut client) => match client.query("SELECT datname FROM pg_database", &[]) {
@@ -87,5 +123,12 @@ pub fn role_exists(args: app::RoleCheckArgs) -> CheckResult {
             Some(format!("Connection params: {args}")),
             Some("pg-start".into()),
         ),
+    }
+}
+
+fn canonicalize(path: String) -> String {
+    match std::fs::canonicalize(&path) {
+        Ok(path) => path.into_os_string().into_string().unwrap(),
+        Err(_) => path,
     }
 }

@@ -612,6 +612,7 @@ name = "medic-check-postgres"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "envsubst",
  "indoc",
  "medic-lib",
  "postgres",

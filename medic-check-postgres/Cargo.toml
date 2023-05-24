@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 clap = { workspace = true, features = ["derive", "cargo", "wrap_help", "env", "unicode" ] }
+envsubst = { workspace = true }
 indoc = { workspace = true }
 medic-lib = { workspace = true }
 postgres = { workspace = true }

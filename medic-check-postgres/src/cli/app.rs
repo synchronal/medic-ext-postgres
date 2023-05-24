@@ -30,8 +30,8 @@ pub struct DefaultConnectionArgs {
     pub connect_timeout: String,
 
     /// optional database used to connect to postgres
-    #[arg(short, long, value_hint = clap::ValueHint::CommandString)]
-    pub dbname: Option<String>,
+    #[arg(short, long, default_value = "postgres", value_hint = clap::ValueHint::CommandString)]
+    pub dbname: String,
 
     #[arg(long, env = "PGHOST", default_value = "localhost", value_hint = clap::ValueHint::CommandString)]
     pub host: String,
@@ -56,13 +56,16 @@ pub struct DefaultConnectionArgs {
 
 impl fmt::Display for DefaultConnectionArgs {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if let Some(dbname) = &self.dbname {
-            write!(f, "dbname={} ", dbname)?;
-        }
         write!(
             f,
-            "host={} user={} port={} password={} sslmode={} connect_timeout={}",
-            self.host, self.user, self.port, self.password, self.sslmode, self.connect_timeout
+            "dbname={} host={} user={} port={} password={} sslmode={} connect_timeout={}",
+            self.dbname,
+            self.host,
+            self.user,
+            self.port,
+            self.password,
+            self.sslmode,
+            self.connect_timeout
         )
     }
 }
@@ -114,8 +117,8 @@ pub struct RoleCheckArgs {
     pub connect_timeout: String,
 
     /// optional database used to connect to postgres
-    #[arg(short, long, value_hint = clap::ValueHint::CommandString)]
-    pub dbname: Option<String>,
+    #[arg(short, long, default_value = "postgres", value_hint = clap::ValueHint::CommandString)]
+    pub dbname: String,
 
     #[arg(long, env = "PGHOST", default_value = "localhost", value_hint = clap::ValueHint::CommandString)]
     pub host: String,
@@ -144,13 +147,16 @@ pub struct RoleCheckArgs {
 
 impl fmt::Display for RoleCheckArgs {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if let Some(dbname) = &self.dbname {
-            write!(f, "dbname={} ", dbname)?;
-        }
         write!(
             f,
-            "host={} user={} port={} password={} sslmode={} connect_timeout={}",
-            self.host, self.user, self.port, self.password, self.sslmode, self.connect_timeout
+            "dbname={} host={} user={} port={} password={} sslmode={} connect_timeout={}",
+            self.dbname,
+            self.host,
+            self.user,
+            self.port,
+            self.password,
+            self.sslmode,
+            self.connect_timeout
         )
     }
 }

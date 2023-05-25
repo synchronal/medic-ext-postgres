@@ -15,7 +15,7 @@ pub fn check_running(args: app::DefaultConnectionArgs) -> CheckResult {
             "Unable to connect to Postgres".into(),
             Some(format!("{err}")),
             Some(format!("Connection params: {args}")),
-            args.remedy.or(Some("pg-start".into())),
+            args.remedy.or(Some("medic-pg-start".into())),
         ),
     }
 }
@@ -51,7 +51,7 @@ pub fn data_directory(args: app::DataDirectoryCheckArgs) -> CheckResult {
             "Unable to connect to Postgres".into(),
             Some(format!("{err}")),
             Some(format!("Connection params: {args}")),
-            Some("pg-start".into()),
+            Some("medic-pg-start".into()),
         ),
     }
 }
@@ -85,7 +85,7 @@ pub fn database_exists(args: app::DatabaseCheckArgs) -> CheckResult {
             "Unable to connect to Postgres".into(),
             Some(format!("{err}")),
             Some(format!("Connection params: {args}")),
-            Some("pg-start".into()),
+            Some("medic-pg-start".into()),
         ),
     }
 }
@@ -121,7 +121,7 @@ pub fn role_exists(args: app::RoleCheckArgs) -> CheckResult {
             "Unable to connect to Postgres".into(),
             Some(format!("{err}")),
             Some(format!("Connection params: {args}")),
-            Some("pg-start".into()),
+            Some("medic-pg-start".into()),
         ),
     }
 }

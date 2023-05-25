@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+medic-pg-stop -q && echo && medic-pg-start

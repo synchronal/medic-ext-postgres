@@ -9,6 +9,7 @@ set -e
 
 mkdir -p tmp/release
 mkdir -p target/universal-apple-darwin/release
+rm -f tmp/release/medic-ext-postgres-darwin-universal.tar.gz
 
 step_header "Build: Darwin aarch64" "cargo build --target aarch64-apple-darwin --workspace -r"
 echo
@@ -20,6 +21,7 @@ cargo build --target x86_64-apple-darwin --workspace -r
 
 
 medic_postgres=(medic-check-postgres)
+scripts=(medic-pg-list medic-pg-restart medic-pg-start medic-pg-stop)
 
 cmds=(${medic_postgres[@]})
 
@@ -31,7 +33,15 @@ done
 
 step "medic-ext-postgres: Create tar file" \
   "(cd target/universal-apple-darwin/release \
-    && tar -czf ../../../tmp/release/medic-ext-postgres-darwin-universal.tar.gz ${medic_postgres[*]})"
+    && tar -cf ../../../tmp/release/medic-ext-postgres-darwin-universal.tar ${medic_postgres[*]})"
+
+step "medic-ext-postgres: Add scripts" \
+  "(cd share/bin \
+    && tar -rf ../../tmp/release/medic-ext-postgres-darwin-universal.tar ${scripts[*]})"
+
+step "medic-ext-postgres: gz" \
+  "(cd tmp/release \
+    && gzip medic-ext-postgres-darwin-universal.tar)"
 
 pushd tmp/release >/dev/null
 

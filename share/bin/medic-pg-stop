@@ -24,12 +24,12 @@ postgres_running() {
 }
 
 stop_local_postgres() {
-  if pgrep -fl postgres | grep -q -- "-D ${datadir}"; then
+  if test -n "$(pgrep -fl postgres | grep -v grep | grep -- "-D ${datadir}")"; then
     step "Stopping local postgres" "$(ps -x -o command | grep '[/]bin/postgres -D' | grep "${datadir}" | sed 's/bin\/postgres/bin\/pg_ctl/') stop"
   else
     if [[ $quiet != "-q" ]]; then
       step_header "Stopping local postgres" ""
-      cecho --bright-bold-red "Postgres does not seem to be running locally"
+      cecho -n --bright-bold-red "Postgres does not seem to be running locally"
     fi
   fi
 }

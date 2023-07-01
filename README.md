@@ -3,6 +3,24 @@
 An extension pack for using [medic](https://github.com/synchronal/medic-rs)
 with Postgres.
 
+## Installation
+
+```shell
+brew tap synchronal/tap
+brew install medic-ext-postgres
+```
+
+Example `Brewfile`:
+
+```shell
+tap 'synchronal/tap'
+
+brew  'synchronal/tap/medic'
+brew  'synchronal/tap/medic-ext-postgres'
+```
+
+## Usage
+
 ```toml
 [doctor]
 

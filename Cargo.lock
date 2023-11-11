@@ -424,7 +424,7 @@ dependencies = [
 
 [[package]]
 name = "medic-check-postgres"
-version = "0.1.1"
+version = "1.0.0"
 dependencies = [
  "clap",
  "envsubst",

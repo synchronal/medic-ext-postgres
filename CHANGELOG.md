@@ -2,7 +2,10 @@
 
 ## Unreleased
 
-- Scripts do not assume postgres is installed via `asdf`. Look in the current path for `postgres`.
+
+## 1.0.0
+
+- Scripts do not assume postgres is installed via `asdf`, but look in the current path for `postgres`.
 
 ## 0.1.1
 

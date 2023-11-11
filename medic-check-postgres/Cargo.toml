@@ -1,10 +1,12 @@
 [package]
 name = "medic-check-postgres"
-version = "0.1.1"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
+homepage.workspace = true
+license.workspace = true
 
 [dependencies]
-clap = { workspace = true, features = ["derive", "cargo", "wrap_help", "env", "unicode" ] }
+clap = { workspace = true }
 envsubst = { workspace = true }
 indoc = { workspace = true }
 medic-lib = { workspace = true }

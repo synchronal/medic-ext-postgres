@@ -6,8 +6,19 @@ members = [
 resolver = "1"
 
 [workspace.dependencies]
-clap = { version = "4.1.8" }
+clap = { version = "4.1.8", features = ["derive", "cargo", "wrap_help", "env", "unicode" ] }
 envsubst = "0.2"
 indoc = "2.0.1"
-medic-lib = { git = "https://github.com/synchronal/medic-rs", tag = "v0.2.1" }
+medic-lib = "0.1"
 postgres = "0.19"
+
+[workspace.package]
+authors = ["Eric Saxby <sax@livinginthepast.org>", "synchonal.dev"]
+description = "Medic extension for Postgres"
+edition = "2021"
+homepage = "https://github.com/synchronal"
+license = "MIT"
+readme = "./README.md"
+repository = "https://github.com/synchronal/medic-ext-postgres"
+version = "0.1.1"
+

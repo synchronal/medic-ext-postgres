@@ -1,5 +1,4 @@
 [doctor]
-
 checks = [
   { check = "homebrew", output = "json" },
   { check = "tool-versions", command = "plugin-installed", args = { plugin = "rust" } },
@@ -11,30 +10,31 @@ checks = [
 ]
 
 [test]
-
 checks = [
   { name = "Check for warnings", shell = "cargo build --workspace --features strict" },
   { step = "rust", command = "test", verbose = true },
 ]
 
 [audit]
-
 checks = [
-  { name = "Audit crates", shell = "cargo audit", allow_failure = true, verbose = true },
+  { name = "Audit crates", shell = "cargo audit", verbose = true },
   { check = "rust", command = "format-check" },
   { step = "rust", command = "clippy" },
   { name = "shell lints", shell = "shellcheck -x -e SC2009,SC1091,SC2181 share/bin/*" },
 ]
 
-[update]
+[outdated]
+checks = [
+  { check = "rust", cd = "medic-check-postgres" },
+]
 
+[update]
 steps = [
   { step = "git", command = "pull" },
   { doctor = {} },
 ]
 
 [shipit]
-
 steps = [
   { audit = {} },
   { update = {} },

@@ -3,6 +3,10 @@
 An extension pack for using [medic](https://github.com/synchronal/medic-rs)
 with Postgres.
 
+This provides a set of checks and shell scripts for managing separate postgres
+instances per project. It is built to work with medic, though its scripts may
+be used in isolation.
+
 ## Installation
 
 ```shell
@@ -33,6 +37,16 @@ checks = [
   # ...
 ]
 ```
+
+## Configuration
+
+The checks that work with `medic-rs` are configured via arguments and/or environment
+variables, and can work in concert with tools such as [direnv](https://direnv.net).
+
+The shell scripts can be configured via the following environment vairables:
+- `PG_ROOT` - the root directory in which to initialize the database. This defaults to
+  `./priv/postgres`.
+- `PGPORT` - the port on which to start Postgres. This defaults to `5432`.
 
 ## medic-check-postgres
 
@@ -89,3 +103,12 @@ run its check, so must be given valid credentials.
 ```shell
 medic-check-postgres running
 ```
+
+## shell scripts
+
+This package also includes a number of shell scripts.
+
+- `medic-pg-start`
+- `medic-pg-stop`
+- `medic-pg-restart`
+- `medic-pg-list`

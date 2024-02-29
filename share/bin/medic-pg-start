@@ -14,7 +14,7 @@ source "$(brew --prefix)/share/medic-bash/check.bash"
 set -e
 
 if eval "which postgres > /dev/null 2>&1"; then
-  pgdir="$(pwd)/priv/postgres"
+  pgdir="${PG_ROOT:-"$(pwd)/priv/postgres"}"
   postgres_bin="$(realpath "$(which postgres)/..")"
   log_path="${pgdir}/logfile"
   datadir="${pgdir}/data"

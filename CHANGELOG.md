@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Scripts initialize database relative to `PG_ROOT`, if present, with a default of `./priv/postgres`.
 
 ## 1.0.0
 

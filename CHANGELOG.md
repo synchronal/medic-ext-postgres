@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix `medic-pg-stop` to look for postgres running database relative to `PG_ROOT`.
+
+## 1.1.0
+
 - Scripts initialize database relative to `PG_ROOT`, if present, with a default of `./priv/postgres`.
 
 ## 1.0.0

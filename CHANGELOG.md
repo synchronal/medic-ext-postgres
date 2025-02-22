@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.1.1
+
 - Fix `medic-pg-stop` to look for postgres running database relative to `PG_ROOT`.
 
 ## 1.1.0

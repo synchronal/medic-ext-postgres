@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.2.0
+
 - `medic-pg-start` automatically creates data directory when `MEDIC_APPLY_REMEDIES` is true.
 
 ## 1.1.1

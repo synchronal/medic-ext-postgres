@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `medic-pg-start` automatically creates data directory when `MEDIC_APPLY_REMEDIES` is true.
+
 ## 1.1.1
 
 - Fix `medic-pg-stop` to look for postgres running database relative to `PG_ROOT`.

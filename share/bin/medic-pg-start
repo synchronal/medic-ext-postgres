@@ -26,10 +26,18 @@ else
 fi
 
 if [[ ! -f ${datadir}/PG_VERSION ]]; then
-  cecho --cyan "${0}:" --bright-bold-red "${datadir}" --red "does not seem to be a postgres data directory"
-  cecho --cyan "Possible rememdy:" --bright-bold-yellow "pg_ctl -D ${datadir} initdb" --green "(It's in the clipboard)"
-  localcopy "pg_ctl -D ${datadir} initdb"
-  exit 1
+  remedy="pg_ctl -D ${datadir} initdb"
+
+  cecho --cyan "${0}:" --bright-bold-red "${datadir}" --red "does not seem to be a postgres data directory" >&2
+
+  if [[ "${MEDIC_APPLY_REMEDIES}" == "true" ]]; then
+    cecho --cyan "${0}:" --cyan "automatically applying remedy." >&2
+    ${remedy}
+  else
+    cecho --cyan "Possible rememdy:" --bright-bold-yellow "${remedy}" --green "(It's in the clipboard)"
+    localcopy "pg_ctl -D ${datadir} initdb"
+    exit 1
+  fi
 fi
 
 step "Starting postgres" "${postgres_bin}/pg_ctl -D ${datadir} -l ${log_path} -o '-p ${pgport}' start"

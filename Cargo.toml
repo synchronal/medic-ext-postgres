@@ -9,7 +9,7 @@ resolver = "1"
 clap = { version = "4.1.8", features = ["derive", "cargo", "wrap_help", "env", "unicode" ] }
 envsubst = "0.2"
 indoc = "2.0.1"
-medic-lib = "0.1"
+medic-lib = "0.2"
 postgres = "0.19"
 
 [workspace.package]

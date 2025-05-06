@@ -31,10 +31,9 @@ pub fn data_directory(args: app::DataDirectoryCheckArgs) -> CheckResult {
                 } else {
                     CheckError(
                         format!(
-                            "Postgres data directory `{}` set to unexpected value.",
-                            expected_data_directory
+                            "Postgres data directory `{expected_data_directory}` set to unexpected value."
                         ),
-                        Some(format!("Data directory: {}", data_directory)),
+                        Some(format!("Data directory: {data_directory}")),
                         None,
                         args.remedy,
                     )
@@ -69,7 +68,7 @@ pub fn database_exists(args: app::DatabaseCheckArgs) -> CheckResult {
                 let database_list: String = databases.join("\r\n");
                 CheckError(
                     format!("Postgres database `{}` does not exist.", args.dbname),
-                    Some(format!("Databases:\r\n{}", database_list)),
+                    Some(format!("Databases:\r\n{database_list}")),
                     None,
                     args.remedy,
                 )
@@ -105,7 +104,7 @@ pub fn role_exists(args: app::RoleCheckArgs) -> CheckResult {
                     env::expand_string(format!("createuser -s {} -U {}", args.role, args.user));
                 CheckError(
                     format!("Postgres role `{}` does not exist.", args.role),
-                    Some(format!("Roles:\r\n{}", role_list)),
+                    Some(format!("Roles:\r\n{role_list}")),
                     None,
                     args.remedy.or(Some(default_remedy)),
                 )

@@ -10,7 +10,38 @@ source "$(brew --prefix)/share/medic-bash/step.bash"
 
 pgdir="${PG_ROOT:-"$(pwd)/priv/postgres"}"
 datadir="${pgdir}/data"
-quiet=$1
+QUIET=false
+YES=false
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -q|--quiet)
+      QUIET=true
+      shift
+      ;;
+    -y|--yes)
+      YES=true
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --*|-*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+  esac
+done
+
+usage() {
+  echo "$0 [options]" >&2
+  echo >&2
+  echo "Options:" >&2
+  echo >&2
+  echo "  -q | --quiet — Run without prompts" >&2
+  echo "  -y | --yes   — Automatically confirm all prompts" >&2
+}
 
 postgres_commands() {
   pgrep -fl postgres \
@@ -25,11 +56,11 @@ postgres_running() {
 
 stop_local_postgres() {
   if test -n "$(pgrep -fl postgres | grep -v grep | grep -- "-D ${datadir}")"; then
-    step "Stopping local postgres" "$(ps -x -o command | grep '[/]bin/postgres -D' | grep "${datadir}" | sed 's/bin\/postgres/bin\/pg_ctl/') stop"
+    step "Stopping local postgres" "$(pgrep -fl postgres | grep '[/]bin/postgres -D' | grep "${datadir}" | sed 's/bin\/postgres/bin\/pg_ctl/') stop"
   else
-    if [[ $quiet != "-q" ]]; then
+    if ! ${QUIET}; then
       step_header "Stopping local postgres" ""
-      cecho -n --bright-bold-red "Postgres does not seem to be running locally"
+      cecho --bright-bold-red "Postgres does not seem to be running locally"
     fi
   fi
 }
@@ -38,7 +69,11 @@ stop_all_postgres() {
   running=$(postgres_commands)
   oIFS="$IFS"; IFS=$'\n'
   for cmd in ${running}; do
-    step "Stopping non-local postgres" "${cmd} stop"
+    if ${QUIET}; then
+      eval "${cmd} stop"
+    else
+      step "Stopping non-local postgres" "${cmd} stop"
+    fi
   done
   IFS="$oIFS"
 }
@@ -46,11 +81,13 @@ stop_all_postgres() {
 main() {
   stop_local_postgres
 
-  if [[ $SHLVL -gt 3 || $BASH_SUBSHELL -gt 0 ]]; then
+  if ${YES}; then
     stop_all_postgres
   elif postgres_running; then
-    confirm "Stop all running postgres processes?"
-    stop_all_postgres
+    if [[ $SHLVL -le 3 && $BASH_SUBSHELL -eq 0 && "${QUIET}" != "true" ]]; then
+      confirm "Stop all running postgres processes?"
+      stop_all_postgres
+    fi
   fi
 }
 

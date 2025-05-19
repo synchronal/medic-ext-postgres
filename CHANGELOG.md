@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- `medic-pg-stop` does not stop other PostgeSQL instances when in subshells, or quiet.
+- `medic-pg-stop` automatically stops all other PostgreSQL instances when `--yes`.
+
 ## 1.2.0
 
 - `medic-pg-start` automatically creates data directory when `MEDIC_APPLY_REMEDIES` is true.

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.0.0
+
 - `medic-pg-stop` does not stop other PostgeSQL instances when in subshells, or quiet.
 - `medic-pg-stop` automatically stops all other PostgreSQL instances when `--yes`.
 

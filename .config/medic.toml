@@ -21,6 +21,7 @@ checks = [
   { check = "rust", command = "format-check" },
   { step = "rust", command = "clippy" },
   { name = "shell lints", shell = "shellcheck -x -e SC2009,SC1091,SC2181 share/bin/*" },
+  { name = "format md", shell = "bin/dev/format-md --check", remedy = "bin/dev/format-md --all" },
 ]
 
 [outdated]

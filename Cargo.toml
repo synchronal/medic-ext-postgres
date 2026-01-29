@@ -15,7 +15,7 @@ postgres = "0.19"
 [workspace.package]
 authors = ["Eric Saxby <sax@livinginthepast.org>", "synchonal.dev"]
 description = "Medic extension for Postgres"
-edition = "2021"
+edition = "2024"
 homepage = "https://github.com/synchronal"
 license = "MIT"
 readme = "./README.md"

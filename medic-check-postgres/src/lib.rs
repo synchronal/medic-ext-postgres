@@ -1,5 +1,4 @@
 #![cfg_attr(feature = "strict", deny(warnings))]
-#![feature(iter_intersperse)]
 
 use crate::cli::app;
 use medic_lib::CheckResult::{self, CheckError, CheckOk};

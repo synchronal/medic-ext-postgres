@@ -45,8 +45,8 @@ usage() {
 
 postgres_commands() {
   pgrep -fl postgres \
-    | cut -f2- -d' ' \
     | grep '[/]bin/postgres' \
+    | cut -f2- -d' ' \
     | sed 's/bin\/postgres/bin\/pg_ctl/'
 }
 
@@ -56,7 +56,7 @@ postgres_running() {
 
 stop_local_postgres() {
   if test -n "$(pgrep -fl postgres | grep -v grep | grep -- "-D ${datadir}")"; then
-    step "Stopping local postgres" "$(pgrep -fl postgres | grep '[/]bin/postgres -D' | grep "${datadir}" | sed 's/bin\/postgres/bin\/pg_ctl/') stop"
+    step "Stopping local postgres" "$(pgrep -fl postgres | grep '[/]bin/postgres -D' | grep "${datadir}" | cut -f2- -d' ' | sed 's/bin\/postgres/bin\/pg_ctl/') stop"
   else
     if ! ${QUIET}; then
       step_header "Stopping local postgres" ""

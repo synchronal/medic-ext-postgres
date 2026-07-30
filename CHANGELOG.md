@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 2.0.1
+
+- Fix `medic-pg-stop` shell command to find running local postgres.
+
 ## 2.0.0
 
 - `medic-pg-stop` does not stop other PostgeSQL instances when in

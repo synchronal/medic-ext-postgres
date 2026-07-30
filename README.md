@@ -9,19 +9,15 @@ its scripts may be used in isolation.
 
 ## Installation
 
-``` shell
-brew tap synchronal/tap
-brew install medic-ext-postgres
-```
+    brew tap synchronal/tap
+    brew install medic-ext-postgres
 
 Example `Brewfile`:
 
-``` shell
-tap 'synchronal/tap'
+    tap 'synchronal/tap'
 
-brew  'synchronal/tap/medic'
-brew  'synchronal/tap/medic-ext-postgres'
-```
+    brew  'synchronal/tap/medic'
+    brew  'synchronal/tap/medic-ext-postgres'
 
 ## Usage
 
@@ -80,9 +76,9 @@ Required arguments:
 - `data-directory` - absolute or relative path to the expected data
   directory.
 
-``` shell
-medic-check-postgres data-directory --data-directory <path>
-```
+<!-- -->
+
+    medic-check-postgres data-directory --data-directory <path>
 
 ### database-exists
 
@@ -92,9 +88,9 @@ Required arguments:
 
 - `dbname`
 
-``` shell
-medic-check-postgres database-exists --dbname <name>
-```
+<!-- -->
+
+    medic-check-postgres database-exists --dbname <name>
 
 ### role-exists
 
@@ -104,18 +100,16 @@ Required arguments:
 
 - `role` - the name of the role that should be present.
 
-``` shell
-medic-check-postgres role-exists --role <name>
-```
+<!-- -->
+
+    medic-check-postgres role-exists --role <name>
 
 ### running
 
 Is postgres running on the given port? Note that this connects to the
 database in order to run its check, so must be given valid credentials.
 
-``` shell
-medic-check-postgres running
-```
+    medic-check-postgres running
 
 ## shell scripts
 

@@ -1,14 +1,17 @@
 [package]
 name = "medic-check-postgres"
-version.workspace = true
+authors.workspace = true
+description.workspace = true
 edition.workspace = true
 homepage.workspace = true
 license.workspace = true
+respository.workspace = true
+readme = "../README.md"
+version.workspace = true
 
 [dependencies]
 clap = { workspace = true }
 envsubst = { workspace = true }
-indoc = { workspace = true }
 medic-lib = { workspace = true }
 postgres = { workspace = true }
 

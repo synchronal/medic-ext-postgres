@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.1.0
+
 - Shell scripts use `PGDATA` as the data directory when set, taking
   precedence over `PG_ROOT`.
 - `medic-check-postgres data-directory` defaults `--data-directory` to

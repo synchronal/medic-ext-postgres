@@ -51,6 +51,20 @@ vairables:
 - `PGPORT` - the port on which to start Postgres. This defaults to
   `5432`.
 
+### Usage with environment variable managers
+
+When used with a combination of `mise` and `direnv`, mise wins out in
+the shell, and *always* sets `PGDATA` when used in combination with its
+postgres extension.
+
+To set the data directory when `mise` is in the shell, the environment
+may be set with `.config/mise.toml`:
+
+``` toml
+[env]
+PGDATA = "{{env.PWD}}/priv/postgres/data"
+```
+
 ## medic-check-postgres
 
 Checks for whether a Postgres database is set up for development.

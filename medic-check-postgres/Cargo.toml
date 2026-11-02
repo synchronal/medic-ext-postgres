@@ -5,7 +5,6 @@ description.workspace = true
 edition.workspace = true
 homepage.workspace = true
 license.workspace = true
-respository.workspace = true
 readme = "../README.md"
 version.workspace = true
 

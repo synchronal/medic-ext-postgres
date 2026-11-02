@@ -8,8 +8,8 @@ source "$(brew --prefix)/share/medic-bash/cecho.bash"
 source "$(brew --prefix)/share/medic-bash/confirm.bash"
 source "$(brew --prefix)/share/medic-bash/step.bash"
 
-pgdir="${PG_ROOT:-"$(pwd)/priv/postgres"}"
-datadir="${pgdir}/data"
+# PGDATA (the data directory itself) wins over PG_ROOT (its parent).
+datadir="${PGDATA:-"${PG_ROOT:-"$(pwd)/priv/postgres"}/data"}"
 QUIET=false
 YES=false
 

@@ -98,7 +98,7 @@ pub struct DataDirectoryCheckArgs {
     pub user: String,
 
     /// expected data directory.
-    #[arg(long, value_hint = clap::ValueHint::CommandString)]
+    #[arg(long, env = "PGDATA", value_hint = clap::ValueHint::CommandString)]
     pub data_directory: String,
 
     /// optional remedy if command fails

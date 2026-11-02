@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Shell scripts use `PGDATA` as the data directory when set, taking
+  precedence over `PG_ROOT`.
+- `medic-check-postgres data-directory` defaults `--data-directory` to
+  `PGDATA`.
+
 ## 2.0.1
 
 - Fix `medic-pg-stop` shell command to find running local postgres.

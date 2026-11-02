@@ -43,8 +43,11 @@ environment variables, and can work in concert with tools such as
 The shell scripts can be configured via the following environment
 vairables:
 
-- `PG_ROOT` - the root directory in which to initialize the database.
-  This defaults to `./priv/postgres`.
+- `PGDATA` - the Postgres data directory, as used by `pg_ctl`. Takes
+  precedence over `PG_ROOT`. When set without `PG_ROOT`, the log file
+  goes in its parent directory.
+- `PG_ROOT` - the parent of the data directory (`$PG_ROOT/data`) and log
+  file (`$PG_ROOT/logfile`). Defaults to `./priv/postgres`.
 - `PGPORT` - the port on which to start Postgres. This defaults to
   `5432`.
 
@@ -74,7 +77,7 @@ Where is the data directory for the given Postgres instances?
 Required arguments:
 
 - `data-directory` - absolute or relative path to the expected data
-  directory.
+  directory. Defaults to `PGDATA`.
 
 <!-- -->
 

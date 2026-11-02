@@ -14,10 +14,16 @@ source "$(brew --prefix)/share/medic-bash/check.bash"
 set -e
 
 if eval "which postgres > /dev/null 2>&1"; then
-  pgdir="${PG_ROOT:-"$(pwd)/priv/postgres"}"
+  # PGDATA (the data directory itself) wins over PG_ROOT (its parent).
+  if [[ -n "${PGDATA}" ]]; then
+    datadir="${PGDATA}"
+    pgdir="${PG_ROOT:-"$(dirname "${PGDATA}")"}"
+  else
+    pgdir="${PG_ROOT:-"$(pwd)/priv/postgres"}"
+    datadir="${pgdir}/data"
+  fi
   postgres_bin="$(realpath "$(which postgres)/..")"
   log_path="${pgdir}/logfile"
-  datadir="${pgdir}/data"
   pgport=${PGPORT:-5432}
   mkdir -p "${datadir}"
 else
